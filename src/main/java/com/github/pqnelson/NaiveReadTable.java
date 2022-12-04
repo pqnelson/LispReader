@@ -115,14 +115,14 @@ public class NaiveReadTable extends AbstractReadTable {
 
     private Object buildToken() {
         StringBuffer buf = new StringBuffer();
-        int cp = next();
-        while (!Character.isWhitespace(cp)) {
-            buf.appendCodePoint(cp);
-            if (this.isFinished()) {
+        while (!this.isFinished()) {
+            final int cp = next();
+
+            if (Character.isWhitespace(cp)) {
                 break;
-            } else {
-                cp = next();
             }
+
+            buf.appendCodePoint(cp);
         }
         return buf.toString();
     }

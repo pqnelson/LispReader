@@ -163,19 +163,16 @@ public class ReadTable extends AbstractReadTable {
 
     private Object buildToken() {
         StringBuffer buf = new StringBuffer();
-        int cp = next();
-        while (!Character.isWhitespace(cp)) {
-            if (this.macroBindings.containsKey(cp)) {
+        while (!this.isFinished()) {
+            final int cp = next();
+
+            if (this.macroBindings.containsKey(cp)
+                || Character.isWhitespace(cp)) {
                 this.unread(cp);
                 break;
             }
 
             buf.appendCodePoint(cp);
-            if (this.isFinished()) {
-                break;
-            } else {
-                cp = next();
-            }
         }
         return buf.toString();
     }
